@@ -7156,7 +7156,7 @@ scan_omni_args(int argc, char *argv[])
     arg2[BUFSIZ],
     arg3[BUFSIZ];
 
-  if (debug) {
+  //if (debug) {
     int i;
     printf("%s called with the following argument vector\n",
 	   __FUNCTION__);
@@ -7164,7 +7164,7 @@ scan_omni_args(int argc, char *argv[])
       printf("%s ",argv[i]);
     }
     printf("\n");
-  }
+  //}
 
   /* double-check struct sizes */
   {
@@ -7373,6 +7373,7 @@ scan_omni_args(int argc, char *argv[])
       }
       break;
     case 'm':
+	printf("Flag m received \n");
       /* set the send size. if we set the local send size it will add
 	 XMIT to direction.  if we set the remote send size it will
 	 add RECV to the direction.  likely as not this will need some
@@ -7390,17 +7391,22 @@ scan_omni_args(int argc, char *argv[])
       }
       break;
     case 'M':
+	printf("Flag M received \n");
       /* set the recv sizes.  if we set the local recv size it will
 	 add RECV to direction.  if we set the remote recv size it
 	 will add XMIT to direction  */
       break_args_explicit(optarg,arg1,arg2);
       if (arg1[0]) {
 	remote_recv_size_req = convert(arg1);
+	printf("%d [%d]\n", __LINE__, remote_recv_size_req);
+	recv_size = remote_recv_size_req;
 	if (implicit_direction)
 	  direction |= NETPERF_XMIT;
       }
       if (arg2[0]) {
+	printf("%d\n", __LINE__);
 	recv_size = convert(arg2); /* This is it?*/
+	printf("Flag received %d\n", recv_size);
 	if (implicit_direction)
 	  direction |= NETPERF_RECV;
       }
